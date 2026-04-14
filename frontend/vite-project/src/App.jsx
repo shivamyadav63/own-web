@@ -5,11 +5,12 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from './pages/Home.jsx';
 import Login from './pages/login.jsx';
 import Signup from './pages/Signup.jsx';
+import { url } from "./config";
 
 
 const App = () => {
   const location = useLocation();
-  export const url = "https://own-web-axon.onrender.com"
+  console.log(url);
 
   return (
     <div>
