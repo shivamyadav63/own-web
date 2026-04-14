@@ -9,6 +9,7 @@ import Signup from './pages/Signup.jsx';
 
 const App = () => {
   const location = useLocation();
+  export const url = "https://own-web-axon.onrender.com"
 
   return (
     <div>
