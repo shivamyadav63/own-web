@@ -1,0 +1,102 @@
+/* Page Layout */
+.home-wrapper {
+  padding: 40px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+
+  /* THIS creates space between form and table */
+  margin-bottom: 2rem;
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* Grid Layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Input Field */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field span {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.field input {
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  outline: none;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.field input:focus {
+  border-bottom: 2px solid #007bff;
+}
+
+/* Button */
+.save-btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #333;
+}
+
+/* Table */
+.book-table {
+  width: 90%;
+  margin: 0 auto; /* removed extra margin since spacing handled above */
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Table Header */
+.book-table th {
+  background: #111;
+  color: #fff;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* Table Body */
+.book-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Zebra Rows */
+.book-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Hover Effect */
+.book-table tr:hover {
+  background: #f1f1f1;
+}
