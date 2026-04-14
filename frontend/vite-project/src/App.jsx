@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Home from './pages/home.jsx';
 import Login from './pages/login.jsx';
-import Signup from './pages/Signup.jsx';
+import Signup from './pages/signup.jsx';
 import { url } from "./config";
 
 
