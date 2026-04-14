@@ -1,5 +1,5 @@
 import React from 'react';
-import './Signup.css';
+import './signup.css';
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
