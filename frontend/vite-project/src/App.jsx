@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './navbar';
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-import Home from './pages/Home.jsx';
+import Home from './pages/home.jsx';
 import Login from './pages/login.jsx';
 import Signup from './pages/Signup.jsx';
 import { url } from "./config";
