@@ -1,9 +1,11 @@
-import React from 'react'
-import { useForm } from "react-hook-form"
+import React from 'react';
+import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate, Link } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import "./login.css";
+
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -15,7 +17,8 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const url = "http://localhost:3001/api/users/login";
+      // ✅ PRODUCTION API URL (Render backend)
+      const url = `${import.meta.env.VITE_API_URL}/api/users/login`;
 
       const response = await fetch(url, {
         method: "POST",
@@ -28,23 +31,23 @@ const Login = () => {
       const result = await response.json();
       console.log("Response:", result);
 
-      // ❌ Error check
+      // ❌ Error handling
       if (!response.ok || !result.success) {
         toast.error(result.message || "Login failed ⚠️");
         return;
       }
 
-      // ✅ Save token + user
+      // ✅ Save token + user info
       localStorage.setItem("token", result.token);
       localStorage.setItem("loggedInUser", result.user.name);
 
       toast.success("Login successful 🎉");
 
-      // ✅ Navigate
+      // ✅ Redirect to home
       navigate("/home");
 
     } catch (error) {
-      console.error(error);
+      console.error("Login Error:", error);
       toast.error("Server error ⚠️");
     }
   };
@@ -57,24 +60,30 @@ const Login = () => {
         <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
 
           <label>Email:</label>
-          <input 
+          <input
             type="email"
             placeholder="Enter your email"
             className="login-input"
-            {...register("email", { required: "Email is required" })}
+            {...register("email", {
+              required: "Email is required",
+            })}
           />
           {errors.email && <p className="error">{errors.email.message}</p>}
 
           <label>Password:</label>
-          <input 
+          <input
             type="password"
             placeholder="Enter your password"
             className="login-input"
-            {...register("password", { required: "Password is required" })}
+            {...register("password", {
+              required: "Password is required",
+            })}
           />
           {errors.password && <p className="error">{errors.password.message}</p>}
 
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-btn">
+            Login
+          </button>
 
           <span className="login-link">
             Don’t have an account? <Link to="/signup">Signup</Link>

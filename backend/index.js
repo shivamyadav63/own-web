@@ -11,20 +11,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ middleware (correct order)
-app.use(cors());
+// ✅ CORS FIX (PRODUCTION READY)
+app.use(cors({
+  origin: "https://own-web-frontend.onrender.com",
+  credentials: true
+}));
+
 app.use(express.json());
 
-// ✅ routes
+// routes
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 
-// ✅ test route
+// test route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// ✅ DB connection
+// DB connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected');

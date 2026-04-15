@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const API = "https://own-web-axon.onrender.com/api/users";
+
 const Signup = () => {
 
   const {
@@ -14,9 +16,8 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      const url = "http://localhost:3001/api/users/signup";
 
-      const response = await fetch(url, {
+      const response = await fetch(`${API}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -26,8 +27,8 @@ const Signup = () => {
 
       const result = await response.json();
 
-      if (!response.ok) {
-        toast.error(result.message || result.error || "Signup failed ⚠️");
+      if (!response.ok || !result.success) {
+        toast.error(result.message || "Signup failed ⚠️");
         return;
       }
 
@@ -38,7 +39,7 @@ const Signup = () => {
       }, 1500);
 
     } catch (error) {
-      console.error("Error occurred while signing up:", error);
+      console.error(error);
       toast.error("Something went wrong ❌");
     }
   };
@@ -50,34 +51,16 @@ const Signup = () => {
           <div className="signup-box">
             <h1 className="signup-title">Signup</h1>
 
-            {/* Name */}
             <label>Name:</label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="signup-input"
-              {...register("name", { required: true })}
-            />
+            <input {...register("name", { required: true })} />
             {errors.name && <span className="error">Name is required</span>}
 
-            {/* Email */}
             <label>Email:</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="signup-input"
-              {...register("email", { required: true })}
-            />
+            <input {...register("email", { required: true })} />
             {errors.email && <span className="error">Email is required</span>}
 
-            {/* Password */}
             <label>Password:</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="signup-input"
-              {...register("password", { required: true })}
-            />
+            <input type="password" {...register("password", { required: true })} />
             {errors.password && <span className="error">Password is required</span>}
 
             <button type="submit" className="signup-btn">Signup</button>

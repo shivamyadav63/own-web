@@ -5,6 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
+// ✅ LIVE BACKEND URL
+const API = "https://own-web-axon.onrender.com/api/books";
+
 const Home = () => {
 
   const [books, setBooks] = useState([]);
@@ -18,29 +21,28 @@ const Home = () => {
     reset
   } = useForm();
 
-  // ✅ ADD + UPDATE
+  // ✅ ADD / UPDATE
   const onSubmit = async (formData) => {
     try {
 
       if (isUpdating) {
-        // UPDATE
         const response = await axios.put(
-          `http://localhost:3001/api/books/updatebook/${editId}`,
+          `${API}/updatebook/${editId}`,
           formData
         );
 
         if (response.data.success) {
           toast.success("Book updated successfully ✅");
-          setIsUpdating(false);
-          setEditId(null);
         } else {
           toast.error("Update failed ❌");
         }
 
+        setIsUpdating(false);
+        setEditId(null);
+
       } else {
-        // ADD
         const response = await axios.post(
-          "http://localhost:3001/api/books/addbook",
+          `${API}/addbook`,
           formData
         );
 
@@ -60,15 +62,11 @@ const Home = () => {
     }
   };
 
-  // ✅ GET ALL
+  // ✅ GET ALL BOOKS
   const getAllbooklist = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/books/booklists"
-      );
-
+      const response = await axios.get(`${API}/booklists`);
       setBooks(response.data.books || []);
-
     } catch (error) {
       console.error(error);
     }
@@ -77,9 +75,7 @@ const Home = () => {
   // ✅ DELETE
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/books/deletebook/${id}`
-      );
+      const response = await axios.delete(`${API}/deletebook/${id}`);
 
       if (response.data.success) {
         toast.success("Book deleted successfully ✅");
@@ -94,10 +90,8 @@ const Home = () => {
     }
   };
 
-  // ✅ EDIT CLICK → FORM FILL (FIXED)
+  // ✅ EDIT
   const handleUpdate = (book) => {
-    console.log("EDIT DATA:", book); // 🔍 debug
-
     setIsUpdating(true);
     setEditId(book._id);
 
@@ -119,7 +113,6 @@ const Home = () => {
   return (
     <div className='shivm'>
 
-      {/* FORM */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="home-wrapper">
           <h1 className="title">📚 Book Details</h1>
@@ -146,19 +139,13 @@ const Home = () => {
 
             <div className="field">
               <span>Price</span>
-              <input
-                type="number"
-                {...register("SellingPrice", { required: "Required" })}
-              />
+              <input type="number" {...register("SellingPrice", { required: "Required" })} />
               {errors.SellingPrice && <p>{errors.SellingPrice.message}</p>}
             </div>
 
             <div className="field">
               <span>Publish Date</span>
-              <input
-                type="date"
-                {...register("PublishDate", { required: "Required" })}
-              />
+              <input type="date" {...register("PublishDate", { required: "Required" })} />
               {errors.PublishDate && <p>{errors.PublishDate.message}</p>}
             </div>
 
@@ -170,7 +157,6 @@ const Home = () => {
         </div>
       </form>
 
-      {/* TABLE */}
       <div className="table-wrapper">
         <h2>📖 Book List</h2>
 
@@ -188,28 +174,20 @@ const Home = () => {
           </thead>
 
           <tbody>
-            {books.length > 0 ? (
-              books.map((book, index) => (
-                <tr key={book._id || index}>
-                  <td>{index + 1}</td>
-                  <td>{book.BookName}</td>
-                  <td>{book.BookTitle}</td>
-                  <td>{book.Author}</td>
-                  <td>₹{book.SellingPrice}</td>
-                  <td>
-                    {new Date(book.PublishDate).toLocaleDateString()}
-                  </td>
-                  <td>
-                    <button onClick={() => handleUpdate(book)}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleDelete(book._id)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+            {books.length > 0 ? books.map((book, index) => (
+              <tr key={book._id}>
+                <td>{index + 1}</td>
+                <td>{book.BookName}</td>
+                <td>{book.BookTitle}</td>
+                <td>{book.Author}</td>
+                <td>₹{book.SellingPrice}</td>
+                <td>{new Date(book.PublishDate).toLocaleDateString()}</td>
+                <td>
+                  <button onClick={() => handleUpdate(book)}>Edit</button>
+                  <button onClick={() => handleDelete(book._id)}>Delete</button>
+                </td>
+              </tr>
+            )) : (
               <tr>
                 <td colSpan="7">No books found</td>
               </tr>
@@ -219,7 +197,6 @@ const Home = () => {
       </div>
 
       <ToastContainer />
-
     </div>
   );
 };
